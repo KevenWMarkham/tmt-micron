@@ -1,5 +1,5 @@
-import MicronAIAssistant from "./components/MicronAIAssistant";
+import AIAssistant from "./components/AIAssistant";
 
 export default function Home() {
-  return <MicronAIAssistant />;
+  return <AIAssistant />;
 }

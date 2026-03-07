@@ -1,8 +1,8 @@
-# Micron AI Support Assistant — Demo Walkthrough Script
+# Acme Corp AI Support Assistant — Demo Walkthrough Script
 
 ## Pre-Demo Setup
 
-1. Open a terminal in `C:\code\TMT\MicronBot`
+1. Open a terminal in `C:\code\TMT\Acme CorpBot`
 2. Run `npm run dev`
 3. Open **Chrome** at `http://localhost:3000` (recommended for best rendering)
 4. **Full-screen the browser** (F11) for maximum impact
@@ -15,12 +15,12 @@
 ### ACTION: Let the page load. Pause to let the audience take in the interface.
 
 **SAY:**
-> "This is Micron's AI Support Assistant — a 24/7 digital helper built entirely on the Microsoft enterprise stack. Let me walk you through what we've built."
+> "This is Acme Corp's AI Support Assistant — a 24/7 digital helper built entirely on the Microsoft enterprise stack. Let me walk you through what we've built."
 
 ### ACTION: Point to the header area.
 
 **HIGHLIGHT:**
-- **Micron branding** — custom avatar, Deloitte Digital design language
+- **Acme Corp branding** — custom avatar, Partner Agency design language
 - **Green "Assistant" in italic** — branded typography (Stix Two Text)
 - **Green pulsing dot** — "Copilot Studio - 24/7 Support" — indicates the system is live
 - **Stats dashboard** (Queries, Resolved, Avg Time, CSAT) — real-time analytics built into the UI
@@ -146,7 +146,7 @@
 ### ACTION: Click **"AI & Knowledge"** to expand it.
 
 **SAY:**
-> "This is the intelligence layer. Azure OpenAI with GPT-4o handles reasoning and generation. Azure AI Search provides semantic retrieval from Micron's internal documentation. Together, they form the RAG pipeline."
+> "This is the intelligence layer. Azure OpenAI with GPT-4o handles reasoning and generation. Azure AI Search provides semantic retrieval from Acme Corp's internal documentation. Together, they form the RAG pipeline."
 
 ### ACTION: Click **"Enterprise Integration"** to expand it.
 
@@ -180,13 +180,13 @@
 > "To summarize what you've seen today:"
 
 1. **100% Microsoft-native** — Copilot Studio, Azure OpenAI, Azure AI Search, Entra ID, Dynamics 365
-2. **Enterprise-grade security** — SSO, private endpoints, RBAC, data residency within Micron's Azure tenant
+2. **Enterprise-grade security** — SSO, private endpoints, RBAC, data residency within Acme Corp's Azure tenant
 3. **Multi-channel** — Teams chat, browser, voice — all from the same agent with full content parity
-4. **RAG pipeline** — responses grounded in Micron's approved documentation, not just LLM training data
+4. **RAG pipeline** — responses grounded in Acme Corp's approved documentation, not just LLM training data
 5. **Built-in analytics** — real-time monitoring, feedback loops, and continuous improvement
 6. **Seamless escalation** — one-click handoff to human agents with full conversation context
 
-> "This is a proof of concept that validates the Microsoft platform for Micron's AI support needs. The architecture is production-ready and extensible."
+> "This is a proof of concept that validates the Microsoft platform for Acme Corp's AI support needs. The architecture is production-ready and extensible."
 
 ---
 

@@ -18,7 +18,7 @@ const stixTwoText = STIX_Two_Text({
 });
 
 export const metadata = {
-  title: "Micron AI Support Assistant",
+  title: "AI Support Assistant Demo",
   description:
     "Enterprise AI Support Assistant — powered by Microsoft Copilot Studio, Azure OpenAI, and Azure AI Search.",
 };

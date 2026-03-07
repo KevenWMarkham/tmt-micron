@@ -3,9 +3,9 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   MICRON AI SUPPORT ASSISTANT — Enterprise v3.0
+   AI SUPPORT ASSISTANT — Enterprise v3.0
    Microsoft-native Platform (Copilot Studio + Azure OpenAI)
-   Deloitte Digital
+   Partner Agency
    ═══════════════════════════════════════════════════════════════ */
 
 const BRAND = {
@@ -65,7 +65,7 @@ const ARCHITECTURE = {
       components: [
         { name: "Azure OpenAI (GPT-4o)", icon: "🧠", desc: "LLM generation & reasoning" },
         { name: "Azure AI Search", icon: "🔍", desc: "Semantic retrieval & ranking" },
-        { name: "Micron Knowledge Base", icon: "📚", desc: "Curated internal docs" },
+        { name: "Acme Corp Knowledge Base", icon: "📚", desc: "Curated internal docs" },
       ],
       color: BRAND.neonGreen,
     },
@@ -85,42 +85,42 @@ const ARCHITECTURE = {
 const KNOWLEDGE_BASE = [
   {
     q: ["what is ai", "artificial intelligence", "define ai", "explain ai"],
-    a: "Artificial Intelligence (AI) refers to systems designed to perform tasks that typically require human intelligence — such as understanding language, recognizing patterns, making decisions, and learning from experience.\n\nAt Micron, we leverage AI across operations to drive efficiency, quality, and innovation in semiconductor manufacturing and beyond.",
+    a: "Artificial Intelligence (AI) refers to systems designed to perform tasks that typically require human intelligence — such as understanding language, recognizing patterns, making decisions, and learning from experience.\n\nAt Acme Corp, we leverage AI across operations to drive efficiency, quality, and innovation in semiconductor manufacturing and beyond.",
     category: "General AI",
-    source: "Azure OpenAI + Micron KB",
+    source: "Azure OpenAI + Acme Corp KB",
     related: ["machine learning", "generative ai", "neural network"],
   },
   {
     q: ["machine learning", "what is ml", "define ml", "explain ml"],
-    a: "Machine Learning (ML) is a subset of AI that enables systems to learn and improve from experience without being explicitly programmed. ML models are trained on data to identify patterns, make predictions, and automate decision-making.\n\nMicron uses ML across manufacturing, quality assurance, and supply chain optimization to maintain our technology leadership.",
+    a: "Machine Learning (ML) is a subset of AI that enables systems to learn and improve from experience without being explicitly programmed. ML models are trained on data to identify patterns, make predictions, and automate decision-making.\n\nAcme Corp uses ML across manufacturing, quality assurance, and supply chain optimization to maintain our technology leadership.",
     category: "General AI",
-    source: "Azure OpenAI + Micron KB",
+    source: "Azure OpenAI + Acme Corp KB",
     related: ["artificial intelligence", "deep learning"],
   },
   {
     q: ["generative ai", "genai", "gen ai", "what is generative", "generative"],
-    a: "Generative AI refers to AI systems that create new content — text, images, code, and more — based on patterns learned from training data.\n\nMicrosoft's Azure OpenAI Service provides enterprise-grade access to models like GPT-4o. Micron leverages these capabilities through Copilot Studio to boost team member productivity and streamline internal support workflows.",
+    a: "Generative AI refers to AI systems that create new content — text, images, code, and more — based on patterns learned from training data.\n\nMicrosoft's Azure OpenAI Service provides enterprise-grade access to models like GPT-4o. Acme Corp leverages these capabilities through Copilot Studio to boost team member productivity and streamline internal support workflows.",
     category: "General AI",
     source: "Azure OpenAI",
     related: ["azure openai", "copilot studio"],
   },
   {
     q: ["copilot", "microsoft copilot", "copilot studio"],
-    a: "Microsoft Copilot Studio is the foundation of this AI assistant. It provides a low-code platform to build, test, and deploy custom AI agents across Teams, web, and voice channels.\n\nMicron's implementation uses Copilot Studio to orchestrate responses from Azure OpenAI and the internal knowledge base, with built-in analytics, conversation management, and configurable escalation rules.",
+    a: "Microsoft Copilot Studio is the foundation of this AI assistant. It provides a low-code platform to build, test, and deploy custom AI agents across Teams, web, and voice channels.\n\nAcme Corp's implementation uses Copilot Studio to orchestrate responses from Azure OpenAI and the internal knowledge base, with built-in analytics, conversation management, and configurable escalation rules.",
     category: "Platform",
     source: "Copilot Studio",
     related: ["azure openai", "teams"],
   },
   {
     q: ["azure openai", "openai", "gpt", "gpt-4", "gpt4"],
-    a: "Azure OpenAI Service provides enterprise-grade access to OpenAI models (GPT-4, GPT-4o) within Microsoft's secure cloud infrastructure.\n\nUnlike the public OpenAI API, Azure OpenAI offers private networking, managed identity authentication via Entra ID, data residency controls, and content filtering — all critical for Micron's security requirements under the CSO's oversight. No customer data is used for model training.",
+    a: "Azure OpenAI Service provides enterprise-grade access to OpenAI models (GPT-4, GPT-4o) within Microsoft's secure cloud infrastructure.\n\nUnlike the public OpenAI API, Azure OpenAI offers private networking, managed identity authentication via Entra ID, data residency controls, and content filtering — all critical for Acme Corp's security requirements under the CSO's oversight. No customer data is used for model training.",
     category: "Architecture",
     source: "Azure OpenAI",
     related: ["security", "rag"],
   },
   {
     q: ["azure ai search", "cognitive search", "search", "ai search"],
-    a: "Azure AI Search (formerly Cognitive Search) powers the retrieval layer of this assistant. It indexes Micron's internal documentation and applies semantic ranking to find the most relevant content.\n\nCombined with Azure OpenAI, this creates a Retrieval-Augmented Generation (RAG) pipeline — ensuring responses are grounded in Micron's approved knowledge base rather than relying solely on the LLM's training data.",
+    a: "Azure AI Search (formerly Cognitive Search) powers the retrieval layer of this assistant. It indexes Acme Corp's internal documentation and applies semantic ranking to find the most relevant content.\n\nCombined with Azure OpenAI, this creates a Retrieval-Augmented Generation (RAG) pipeline — ensuring responses are grounded in Acme Corp's approved knowledge base rather than relying solely on the LLM's training data.",
     category: "Architecture",
     source: "Azure AI Search",
     related: ["rag", "knowledge base"],
@@ -148,42 +148,42 @@ const KNOWLEDGE_BASE = [
   },
   {
     q: ["security", "secure", "cso", "chief security officer", "entra", "sso", "privacy", "data protection"],
-    a: "This solution operates entirely within Microsoft's enterprise cloud, governed by Micron's security policies under the CSO's oversight.\n\n• Authentication: Microsoft Entra ID (SSO) — no separate credentials\n• Data residency: All data stays within Micron's Azure tenant\n• Network: Private endpoints with encryption at rest and in transit\n• Access: Role-based access controls (RBAC)\n• AI safety: Azure OpenAI enterprise tier — no customer data used for training\n• Compliance: SOC 2, ISO 27001, and Micron's internal security standards",
+    a: "This solution operates entirely within Microsoft's enterprise cloud, governed by Acme Corp's security policies under the CSO's oversight.\n\n• Authentication: Microsoft Entra ID (SSO) — no separate credentials\n• Data residency: All data stays within Acme Corp's Azure tenant\n• Network: Private endpoints with encryption at rest and in transit\n• Access: Role-based access controls (RBAC)\n• AI safety: Azure OpenAI enterprise tier — no customer data used for training\n• Compliance: SOC 2, ISO 27001, and Acme Corp's internal security standards",
     category: "Security",
     source: "Azure / Entra ID",
     related: ["azure openai", "entra"],
   },
   {
     q: ["chatbot", "this chatbot", "how does this work", "what can you do", "capabilities", "about"],
-    a: "I'm Micron's AI Support Assistant — a 24/7 digital helper built on Microsoft Copilot Studio. I combine Azure OpenAI's language capabilities with Micron's internal knowledge base via Azure AI Search.\n\nI'm available through Teams chat, Teams voice, and this browser interface. If I can't resolve your question with high confidence, I'll connect you with a human agent through Dynamics 365 Contact Center.\n\nI can help with AI fundamentals, Microsoft platform capabilities, security questions, escalation processes, architecture details, and more.",
+    a: "I'm Acme Corp's AI Support Assistant — a 24/7 digital helper built on Microsoft Copilot Studio. I combine Azure OpenAI's language capabilities with Acme Corp's internal knowledge base via Azure AI Search.\n\nI'm available through Teams chat, Teams voice, and this browser interface. If I can't resolve your question with high confidence, I'll connect you with a human agent through Dynamics 365 Contact Center.\n\nI can help with AI fundamentals, Microsoft platform capabilities, security questions, escalation processes, architecture details, and more.",
     category: "About",
     source: "System",
     related: ["copilot studio", "escalation"],
   },
   {
     q: ["knowledge base", "documentation", "docs", "sources"],
-    a: "I draw answers from two integrated sources:\n\n1. Azure OpenAI — for general AI and technology knowledge, powered by GPT-4o\n2. Micron's Internal Documentation — indexed through Azure AI Search with semantic ranking\n\nThis dual-source RAG architecture ensures responses are both broadly knowledgeable and specifically grounded in Micron-approved content. Source attribution is shown with each response.",
+    a: "I draw answers from two integrated sources:\n\n1. Azure OpenAI — for general AI and technology knowledge, powered by GPT-4o\n2. Acme Corp's Internal Documentation — indexed through Azure AI Search with semantic ranking\n\nThis dual-source RAG architecture ensures responses are both broadly knowledgeable and specifically grounded in Acme Corp-approved content. Source attribution is shown with each response.",
     category: "Architecture",
     source: "Azure AI Search + Azure OpenAI",
     related: ["rag", "azure ai search"],
   },
   {
     q: ["llm", "large language model"],
-    a: "A Large Language Model (LLM) is an AI model trained on vast amounts of text data to understand and generate human language. LLMs power tools like ChatGPT, Gemini, and Copilot.\n\nThis assistant uses Azure OpenAI's GPT-4o model within Micron's secure Azure tenant — providing enterprise-grade LLM capabilities with full data privacy, content filtering, and compliance controls.",
+    a: "A Large Language Model (LLM) is an AI model trained on vast amounts of text data to understand and generate human language. LLMs power tools like ChatGPT, Gemini, and Copilot.\n\nThis assistant uses Azure OpenAI's GPT-4o model within Acme Corp's secure Azure tenant — providing enterprise-grade LLM capabilities with full data privacy, content filtering, and compliance controls.",
     category: "General AI",
     source: "Azure OpenAI",
     related: ["azure openai", "generative ai"],
   },
   {
     q: ["poc", "proof of concept", "pilot", "project"],
-    a: "This Proof of Concept demonstrates a Microsoft-native conversational AI support model for Micron.\n\nBuilt on Copilot Studio with Azure OpenAI and Azure AI Search, the POC evaluates five success criteria:\n1. Resolution accuracy — correct answers from dual knowledge sources\n2. Response speed — sub-2-second average handling time\n3. Dual data sources — RAG pipeline combining internal + external knowledge\n4. Chat-voice parity — consistent experience across all channels\n5. Branded UX — Micron-aligned, manageable user experience",
+    a: "This Proof of Concept demonstrates a Microsoft-native conversational AI support model for Acme Corp.\n\nBuilt on Copilot Studio with Azure OpenAI and Azure AI Search, the POC evaluates five success criteria:\n1. Resolution accuracy — correct answers from dual knowledge sources\n2. Response speed — sub-2-second average handling time\n3. Dual data sources — RAG pipeline combining internal + external knowledge\n4. Chat-voice parity — consistent experience across all channels\n5. Branded UX — Acme Corp-aligned, manageable user experience",
     category: "Project",
     source: "System",
     related: ["architecture", "analytics"],
   },
   {
     q: ["rag", "retrieval augmented", "retrieval-augmented generation"],
-    a: "Retrieval-Augmented Generation (RAG) is the core AI pattern powering this assistant.\n\nThe process works in three steps:\n1. Azure AI Search retrieves the most relevant documents from Micron's knowledge base using semantic ranking\n2. Retrieved context is injected into the prompt alongside the user's question\n3. Azure OpenAI generates a grounded response based on both the retrieved context and its general knowledge\n\nThis approach ensures factual accuracy and significantly reduces hallucination — critical for enterprise support applications.",
+    a: "Retrieval-Augmented Generation (RAG) is the core AI pattern powering this assistant.\n\nThe process works in three steps:\n1. Azure AI Search retrieves the most relevant documents from Acme Corp's knowledge base using semantic ranking\n2. Retrieved context is injected into the prompt alongside the user's question\n3. Azure OpenAI generates a grounded response based on both the retrieved context and its general knowledge\n\nThis approach ensures factual accuracy and significantly reduces hallucination — critical for enterprise support applications.",
     category: "Architecture",
     source: "Azure AI Search + Azure OpenAI",
     related: ["azure ai search", "azure openai"],
@@ -197,7 +197,7 @@ const KNOWLEDGE_BASE = [
   },
   {
     q: ["power automate", "workflow", "automation", "automate"],
-    a: "Power Automate integrates with Copilot Studio to handle complex workflows beyond simple Q&A:\n\n• Creating support tickets in ServiceNow or Jira\n• Triggering email notifications to subject matter experts\n• Updating knowledge articles when gaps are identified\n• Routing approval workflows for content changes\n• Logging interactions to compliance systems\n\nThis extends the assistant's capabilities into actionable task automation within Micron's Microsoft 365 environment.",
+    a: "Power Automate integrates with Copilot Studio to handle complex workflows beyond simple Q&A:\n\n• Creating support tickets in ServiceNow or Jira\n• Triggering email notifications to subject matter experts\n• Updating knowledge articles when gaps are identified\n• Routing approval workflows for content changes\n• Logging interactions to compliance systems\n\nThis extends the assistant's capabilities into actionable task automation within Acme Corp's Microsoft 365 environment.",
     category: "Integration",
     source: "Power Automate",
     related: ["copilot studio", "escalation"],
@@ -211,14 +211,14 @@ const KNOWLEDGE_BASE = [
   },
   {
     q: ["prompt", "prompt engineering", "how to prompt", "prompting"],
-    a: "Prompt engineering is the practice of crafting effective inputs to get the best results from AI models.\n\nBest practices for team members:\n• Be specific — clearly state what you need\n• Provide context — include relevant background\n• Break it down — split complex requests into steps\n• Specify format — tell the AI how to structure its response\n• Iterate — refine your prompt based on results\n\nIn Copilot Studio, system prompts are pre-configured to ensure consistent, accurate responses aligned to Micron's use case.",
+    a: "Prompt engineering is the practice of crafting effective inputs to get the best results from AI models.\n\nBest practices for team members:\n• Be specific — clearly state what you need\n• Provide context — include relevant background\n• Break it down — split complex requests into steps\n• Specify format — tell the AI how to structure its response\n• Iterate — refine your prompt based on results\n\nIn Copilot Studio, system prompts are pre-configured to ensure consistent, accurate responses aligned to Acme Corp's use case.",
     category: "General AI",
     source: "Azure OpenAI",
     related: ["generative ai", "llm"],
   },
   {
     q: ["brand", "branding", "customize", "user experience", "ux"],
-    a: "Copilot Studio provides full branding and UX customization:\n\n• Custom avatars and color themes aligned to brand guidelines\n• Configurable welcome messages and conversation flows\n• Tone of voice control through system prompts\n• Browser widget styling to match corporate design systems\n• Teams deployment inherits organizational branding automatically\n\nThis ensures a consistent, professional experience that reinforces Micron's brand identity across all interaction channels.",
+    a: "Copilot Studio provides full branding and UX customization:\n\n• Custom avatars and color themes aligned to brand guidelines\n• Configurable welcome messages and conversation flows\n• Tone of voice control through system prompts\n• Browser widget styling to match corporate design systems\n• Teams deployment inherits organizational branding automatically\n\nThis ensures a consistent, professional experience that reinforces Acme Corp's brand identity across all interaction channels.",
     category: "UX",
     source: "Copilot Studio",
     related: ["chatbot", "teams"],
@@ -281,7 +281,7 @@ function findAnswer(input) {
 
   if (/^(hello|hi|hey|good morning|good afternoon|good evening)/i.test(lower)) {
     return {
-      text: "Hello! I'm Micron's AI Support Assistant, powered by Microsoft Copilot Studio. I'm here to help with your AI-related questions.\n\nWhat can I help you with today?",
+      text: "Hello! I'm Acme Corp's AI Support Assistant, powered by Microsoft Copilot Studio. I'm here to help with your AI-related questions.\n\nWhat can I help you with today?",
       category: "Greeting",
       confidence: "High",
       source: "System",
@@ -290,7 +290,7 @@ function findAnswer(input) {
   }
   if (/^(thank|thanks|ty|cheers|appreciate)/i.test(lower)) {
     return {
-      text: "You're welcome! I'm glad I could help. Feel free to ask anything else about AI or Micron's AI initiatives — I'm available 24/7 across Teams and this browser interface.",
+      text: "You're welcome! I'm glad I could help. Feel free to ask anything else about AI or Acme Corp's AI initiatives — I'm available 24/7 across Teams and this browser interface.",
       category: "Courtesy",
       confidence: "High",
       source: "System",
@@ -299,7 +299,7 @@ function findAnswer(input) {
   }
   if (/^(bye|goodbye|see you|that's all)/i.test(lower)) {
     return {
-      text: "Goodbye! Thank you for using Micron's AI Support Assistant. I'm here anytime you need help. Have a great day!",
+      text: "Goodbye! Thank you for using Acme Corp's AI Support Assistant. I'm here anytime you need help. Have a great day!",
       category: "Courtesy",
       confidence: "High",
       source: "System",
@@ -317,7 +317,7 @@ function findAnswer(input) {
 }
 
 // ─── Icons ───
-function MicronIcon({ size = 18 }) {
+function BrandIcon({ size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle cx="12" cy="12" r="11" stroke={BRAND.green} strokeWidth="2" />
@@ -487,7 +487,7 @@ function ChatMessage({ msg, isLast, onFeedback, onCopy, onEscalate }) {
           display: "flex", alignItems: "center", justifyContent: "center",
           marginRight: 10, flexShrink: 0, marginTop: 2,
         }} aria-hidden="true">
-          <MicronIcon size={17} />
+          <BrandIcon size={17} />
         </div>
       )}
       <div style={{ maxWidth: "78%", minWidth: 0 }}>
@@ -582,7 +582,7 @@ function ArchitectureView() {
           Solution <span style={{ fontStyle: "italic", color: BRAND.green }}>Architecture</span>
         </h2>
         <p style={{ fontSize: 13, color: BRAND.textSecondary, margin: 0, lineHeight: 1.5 }}>
-          End-to-end Microsoft enterprise stack powering Micron's AI Support Assistant.
+          End-to-end Microsoft enterprise stack powering Acme Corp's AI Support Assistant.
         </p>
       </div>
 
@@ -663,7 +663,7 @@ function ArchitectureView() {
           ["Response speed", "Copilot Studio orchestration (sub-2s target)"],
           ["Dual data sources", "Azure AI Search + Azure OpenAI"],
           ["Chat-voice parity", "Copilot Studio multi-channel publishing"],
-          ["Branded UX", "Copilot Studio customization + Deloitte design"],
+          ["Branded UX", "Copilot Studio customization + Partner Agency design"],
         ].map(([k, v], i) => (
           <div key={i} style={{ display: "flex", gap: 8, marginBottom: i < 4 ? 4 : 0 }}>
             <span style={{ color: BRAND.green, fontWeight: 700, minWidth: 8 }}>→</span>
@@ -753,11 +753,11 @@ function VoiceView({ isListening, toggleVoice }) {
 }
 
 // ─── Main Component ───
-export default function MicronAIAssistant() {
+export default function AIAssistant() {
   const idRef = useRef(1);
   const [messages, setMessages] = useState([{
     id: 0, role: "bot",
-    text: "Welcome to Micron's AI Support Assistant — powered by Microsoft Copilot Studio, Azure OpenAI, and Azure AI Search.\n\nI'm your 24/7 digital helper for general and specific AI-related inquiries. How can I assist you today?",
+    text: "Welcome to Acme Corp's AI Support Assistant — powered by Microsoft Copilot Studio, Azure OpenAI, and Azure AI Search.\n\nI'm your 24/7 digital helper for general and specific AI-related inquiries. How can I assist you today?",
     category: "Welcome", confidence: null, source: "Copilot Studio",
     time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     feedback: null,
@@ -866,7 +866,7 @@ export default function MicronAIAssistant() {
     idRef.current = 1;
     setMessages([{
       id: 0, role: "bot",
-      text: "Session cleared. Welcome back to Micron's AI Support Assistant.\n\nHow can I help you today?",
+      text: "Session cleared. Welcome back to Acme Corp's AI Support Assistant.\n\nHow can I help you today?",
       category: "System", confidence: null, source: "Copilot Studio",
       time: now, feedback: null,
     }]);
@@ -886,7 +886,7 @@ export default function MicronAIAssistant() {
       height: "100vh", display: "flex", flexDirection: "column",
       backgroundColor: BRAND.bgLight, color: BRAND.textPrimary,
       overflow: "hidden",
-    }} role="application" aria-label="Micron AI Support Assistant">
+    }} role="application" aria-label="Acme Corp AI Support Assistant">
       <style>{`
         @keyframes typingBounce {
           0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
@@ -931,11 +931,11 @@ export default function MicronAIAssistant() {
             width: 38, height: 38, borderRadius: "50%", background: BRAND.darkGray,
             display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
           }}>
-            <MicronIcon size={18} />
+            <BrandIcon size={18} />
           </div>
           <div>
             <div style={{ fontWeight: 700, fontSize: 15, color: BRAND.textPrimary, letterSpacing: -0.2 }}>
-              Micron AI{" "}
+              Acme Corp AI{" "}
               <span style={{
                 fontFamily: "var(--font-stix-two-text), Georgia, serif",
                 fontStyle: "italic", color: BRAND.green, fontWeight: 600,
@@ -1052,7 +1052,7 @@ export default function MicronAIAssistant() {
                   width: 34, height: 34, borderRadius: "50%", background: BRAND.darkGray,
                   display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                 }}>
-                  <MicronIcon size={17} />
+                  <BrandIcon size={17} />
                 </div>
                 <div style={{
                   padding: "14px 18px", borderRadius: "3px 18px 18px 18px",
@@ -1180,7 +1180,7 @@ export default function MicronAIAssistant() {
                 Copilot Studio · Azure OpenAI · Azure AI Search · Azure Speech
               </span>
               <span style={{ fontSize: 10, color: BRAND.textTertiary, letterSpacing: 0.2 }}>
-                Deloitte Digital · Enterprise v3.0
+                Partner Agency · Enterprise v3.0
               </span>
             </div>
           </div>

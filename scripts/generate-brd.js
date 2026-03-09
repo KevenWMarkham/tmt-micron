@@ -1281,6 +1281,194 @@ const doc = new Document({
       new Paragraph({ spacing: { after: 200 }, children: [
         new TextRun({ text: "Sources: Microsoft Customer Stories (microsoft.com/customers), Microsoft AI in Action (news.microsoft.com/ai-in-action), Microsoft Industry Blogs, verified case studies as of March 2026.", font: "Arial", size: 20, italics: true, color: "666666" }),
       ]}),
+
+      new Paragraph({ children: [new PageBreak()] }),
+
+      // ═══════════════════════════════════════
+      // 14. APPENDIX C: STAKEHOLDER ENGAGEMENT PLAN
+      // ═══════════════════════════════════════
+      heading1("14. Appendix C: Stakeholder Engagement Plan"),
+
+      para("This appendix provides a prioritized engagement plan for each functional area, including key tasks, discussion topics, and suggested talking points for initial stakeholder meetings. Use this as a playbook for building cross-functional alignment."),
+
+      // ─── EXECUTIVE SPONSOR ───
+      heading2("14.1 Executive Sponsor (CIO / CTO / SVP Global Operations)"),
+      heading3("Engagement Priority: Immediate — Week 1"),
+      boldPara("Key Tasks: ", "Secure executive sponsorship, confirm budget authority, align with corporate AI strategy, establish governance model, define success metrics for board reporting."),
+      heading3("Talking Points"),
+      bullet("\"We\u2019ve built a proof-of-concept that demonstrates a 100% Microsoft-native AI support platform. Every component \u2014 from authentication to analytics \u2014 runs within your Azure tenant.\""),
+      bullet("\"Lenovo achieved 15% productivity gains and record CSAT in just 45 days with the same Dynamics 365 + Copilot stack. Honeywell has 16+ generative AI use cases in production across 95,000 employees.\""),
+      bullet("\"The phased approach (6 sprints, $235K) lets us validate value at each gate before committing to the next phase. Phase 2 alone delivers voice + function calling.\""),
+      bullet("\"Which business unit should we pilot first \u2014 DRAM support, SSD technical services, or internal fab operations?\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── TECHNICAL SUPPORT ENGINEERING ───
+      heading2("14.2 Technical Support Engineering (VP Tech Support / TSE Managers)"),
+      heading3("Engagement Priority: Immediate — Week 1"),
+      boldPara("Key Tasks: ", "Map current support workflows (Tier 1/2/3), inventory knowledge sources (datasheets, TN docs, qualification reports), define escalation rules, identify top 20 call reasons for AI training, establish accuracy benchmarks."),
+      heading3("Talking Points"),
+      bullet("\"Show me your top 20 support request types by volume. We\u2019ll train the AI to handle the highest-volume, most repetitive queries first \u2014 freeing your TSEs for complex design-in work.\""),
+      bullet("\"The AI won\u2019t replace your team \u2014 it augments them. When confidence is low, it escalates with full context through Dynamics 365, so the human agent sees the entire conversation.\""),
+      bullet("\"Schneider Electric cut troubleshooting time by 60\u201380% using the same Knowledge Bot + RAG pattern over their technical documentation.\""),
+      bullet("\"What does your current escalation path look like from web form to Tier 3 engineering? Where are the bottlenecks?\""),
+      bullet("\"We need your team to validate the first 50 AI responses against your quality standards before we go live.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── APPLICATIONS ENGINEERING ───
+      heading2("14.3 Applications Engineering (AEs / Solutions Architects)"),
+      heading3("Engagement Priority: High — Weeks 2\u20133"),
+      boldPara("Key Tasks: ", "Identify technical domains for knowledge base (memory interfaces, signal integrity, firmware), define accuracy thresholds for engineering responses, establish NDA boundary rules for AI responses, create test suite of real customer queries."),
+      heading3("Talking Points"),
+      bullet("\"Your engineering expertise is what makes the knowledge base valuable. We need your help curating which technical notes, app notes, and design guides should be indexed.\""),
+      bullet("\"The AI will show its source for every answer \u2014 \u2018from TN-XX-XX, Section 4.2\u2019 \u2014 so customers can verify against the original document. No hallucinated specs.\""),
+      bullet("\"For queries that require custom characterization data, NDA-protected information, or judgment calls, the AI will escalate to a human AE \u2014 never attempt to answer beyond its confidence level.\""),
+      bullet("\"Can you give us 30\u201350 real customer questions from the past quarter? We\u2019ll use them as our accuracy test suite.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── MANUFACTURING / FAB OPS ───
+      heading2("14.4 Manufacturing / Fab Operations (VP Manufacturing / Fab Managers)"),
+      heading3("Engagement Priority: Medium — Weeks 3\u20134"),
+      boldPara("Key Tasks: ", "Scope internal support use case (fab process docs, equipment procedures, yield analysis), classify manufacturing IP sensitivity levels, validate clean room protocol documentation is indexable, assess integration with MES/yield systems."),
+      heading3("Talking Points"),
+      bullet("\"Internal engineers waste hours searching for process recipes, equipment SOPs, and yield troubleshooting docs. The AI can surface the right document in seconds.\""),
+      bullet("\"ABB\u2019s Genix Copilot on Azure OpenAI extended asset lifespan by 20% and reduced unplanned downtime by 60% in manufacturing environments.\""),
+      bullet("\"We\u2019ll classify all fab content by sensitivity level \u2014 public, internal, restricted \u2014 and enforce access control through Entra ID RBAC. No risk of process IP leaking to external channels.\""),
+      bullet("\"Is there appetite to pilot this for equipment troubleshooting on one fab line before expanding?\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── IT / CLOUD ───
+      heading2("14.5 IT / Cloud Infrastructure (Cloud Architect / Platform Engineer)"),
+      heading3("Engagement Priority: Immediate — Week 1"),
+      boldPara("Key Tasks: ", "Validate Azure resource requirements and quotas, confirm networking architecture (private endpoints, ExpressRoute), assess integration with existing SAP/PLM systems, plan CI/CD pipeline, establish dev/staging/prod environments."),
+      heading3("Talking Points"),
+      bullet("\"The entire solution runs on Azure PaaS services \u2014 no VMs to manage. OpenAI, AI Search, Cosmos DB, Fabric \u2014 all managed services within your tenant.\""),
+      bullet("\"We need to confirm Azure OpenAI quota allocation for GPT-4o and GPT-4o-realtime models in your region. What\u2019s your current Azure subscription structure?\""),
+      bullet("\"Private endpoints ensure no data leaves your VNet. We\u2019ll need ExpressRoute or VPN for any on-prem integration (SAP, MES).\""),
+      bullet("\"What\u2019s your current CI/CD toolchain? We\u2019ll align with Azure DevOps or GitHub Actions \u2014 whichever you prefer.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── INFOSEC / EXPORT CONTROLS ───
+      heading2("14.6 Information Security & Export Controls (CISO / Export Control Officer)"),
+      heading3("Engagement Priority: Immediate — Week 1"),
+      boldPara("Key Tasks: ", "Review security architecture, validate Entra ID integration plan, assess ITAR/EAR compliance for AI-served content, define data classification schema for knowledge base, approve AI safety guardrails, review responsible AI policies."),
+      heading3("Talking Points"),
+      bullet("\"Zero-trust by design: Entra ID is mandatory (no API keys), all data stays in your Azure tenant, RBAC controls who sees what, and private endpoints eliminate public internet exposure.\""),
+      bullet("\"For export-controlled content, we\u2019ll implement content classification tags in Azure AI Search. The RAG pipeline will check user clearance level before returning restricted documents.\""),
+      bullet("\"The AI has built-in guardrails \u2014 it will never expose raw source data, never combine information across classification levels, and every response cites its source document.\""),
+      bullet("\"What\u2019s your current content classification schema? We need to map ITAR/EAR categories to Azure AI Search access control filters.\""),
+      bullet("\"Microsoft\u2019s enterprise AI safety: customer data is never used for model training. Azure OpenAI runs in an isolated, SOC 2 / ISO 27001 certified environment.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── SUPPLY CHAIN / SALES OPS ───
+      heading2("14.7 Supply Chain / Sales Operations (VP Sales Ops / Order Management)"),
+      heading3("Engagement Priority: High — Weeks 2\u20133"),
+      boldPara("Key Tasks: ", "Map customer-facing query types (order status, lead times, allocation, pricing), define SAP/CRM integration requirements for real-time order data, identify function calling use cases (order lookup, shipment tracking), establish data refresh cadence."),
+      heading3("Talking Points"),
+      bullet("\"Customers asking \u2018where\u2019s my order?\u2019 or \u2018what\u2019s the lead time for part X?\u2019 can get instant answers through the AI agent using function calling to query SAP in real-time.\""),
+      bullet("\"The function calling pattern means the AI doesn\u2019t just search documents \u2014 it executes actual lookups: check_order_status(PO=12345), get_lead_time(part=MT48AX), track_shipment(ID=...).\""),
+      bullet("\"Which data systems hold order status, inventory, and allocation data today? We need API access for the function calling integration.\""),
+      bullet("\"What are your top 5 customer pain points in the order-to-delivery process? Those become our first function calling targets.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── DATA & ANALYTICS ───
+      heading2("14.8 Data & Analytics (CDO / Analytics Lead)"),
+      heading3("Engagement Priority: Medium — Weeks 3\u20134 (Phase 3 focus)"),
+      boldPara("Key Tasks: ", "Define KPIs and reporting requirements, plan Cosmos DB schema for conversation data, configure Fabric mirroring, design Power BI dashboards, integrate with existing manufacturing intelligence platforms."),
+      heading3("Talking Points"),
+      bullet("\"Every conversation generates structured analytics: sentiment, call reason, resolution time, CSAT, and agent performance \u2014 all stored in Cosmos DB with real-time mirroring to Fabric.\""),
+      bullet("\"Your BI team can build Power BI dashboards or use Fabric Data Agents to query conversation data in natural language: \u2018Show me DRAM support trends this quarter.\u2019\""),
+      bullet("\"What KPIs does leadership care about most? Resolution rate? First-contact resolution? Average handle time? We\u2019ll design the analytics pipeline around those.\""),
+      bullet("\"How does this integrate with your existing manufacturing intelligence and yield analytics platforms?\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── AI/ML ───
+      heading2("14.9 AI / Machine Learning (AI/ML Lead / Prompt Engineer)"),
+      heading3("Engagement Priority: High — Weeks 2\u20133"),
+      boldPara("Key Tasks: ", "Configure Azure OpenAI model deployments, tune RAG pipeline for semiconductor terminology and part numbers, design function calling schemas, optimize system prompts, establish model evaluation benchmarks, coordinate with existing AI/ML initiatives."),
+      heading3("Talking Points"),
+      bullet("\"The RAG pipeline needs to handle semiconductor-specific patterns: part numbers (MT48AX...), JEDEC standards (JESD79-5), process nodes (1\u03B1 DRAM), and technical abbreviations.\""),
+      bullet("\"We support 3 model tiers: Pro (GPT-4o for complex technical queries), Basic (GPT-4o-mini for standard support), Lite (phi-4 for high-volume FAQs). This optimizes cost by 40\u201360%.\""),
+      bullet("\"How does this AI support initiative align with your existing ML workloads (yield prediction, defect detection)? Can we share Azure infrastructure?\""),
+      bullet("\"We\u2019ll need your team to help tune the system prompt and evaluate response quality against your engineering accuracy standards.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── UC / TELEPHONY ───
+      heading2("14.10 Unified Communications / Telephony (UC Manager)"),
+      heading3("Engagement Priority: Medium — Weeks 3\u20134"),
+      boldPara("Key Tasks: ", "Map existing telephony infrastructure, plan Teams voice channel configuration, assess Azure Communication Services for PSTN, coordinate Voice Live API integration with global telephony routing."),
+      heading3("Talking Points"),
+      bullet("\"The voice channel uses Azure Voice Live API with WebSocket-based real-time audio streaming \u2014 24kHz quality, server-side VAD, noise suppression, and echo cancellation.\""),
+      bullet("\"Vodafone handles 45 million queries per month across 15 languages using this same Azure voice + AI stack.\""),
+      bullet("\"What does your current global telephony routing look like? We need to understand how voice calls reach support today before we add the AI layer.\""),
+      bullet("\"The same AI agent handles Teams calls, browser voice, and PSTN telephony \u2014 no separate agent for each channel.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── KNOWLEDGE MANAGEMENT ───
+      heading2("14.11 Knowledge Management / Technical Publications"),
+      heading3("Engagement Priority: High — Weeks 2\u20133"),
+      boldPara("Key Tasks: ", "Inventory all knowledge sources (datasheets, technical notes, app notes, qualification reports, firmware release notes), define content classification levels (public/NDA/internal), establish indexing and update workflows, plan content migration to Azure AI Search."),
+      heading3("Talking Points"),
+      bullet("\"The AI is only as good as its knowledge base. We need a complete inventory of what your customers and engineers ask about, and where the answers live today.\""),
+      bullet("\"Content classification is critical: public datasheets (anyone), NDA-protected specs (qualified customers), internal process docs (employees only). The AI enforces these boundaries.\""),
+      bullet("\"When a new product revision or errata drops, how quickly does it need to appear in the AI\u2019s knowledge? We\u2019ll design the update pipeline around your publishing cadence.\""),
+      bullet("\"Can you map your current document types: how many datasheets, technical notes, app notes, and design guides exist? What format are they in?\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── PRODUCT / UX ───
+      heading2("14.12 Product / Digital Experience (Product Owner / UX)"),
+      heading3("Engagement Priority: Medium — Weeks 3\u20134"),
+      boldPara("Key Tasks: ", "Define conversation flows and UX patterns, review branding guidelines for AI assistant, design parametric search and cross-reference features, plan customer portal integration."),
+      heading3("Talking Points"),
+      bullet("\"The demo shows a branded AI assistant with your visual identity, custom suggested questions, and structured responses. What adjustments does the UX need for your customers?\""),
+      bullet("\"We can design conversation flows for common product selection journeys: \u2018I need a DDR5 module with X speed, Y capacity, Z temperature rating.\u2019\""),
+      bullet("\"Where should the AI live in your digital experience? Embedded in the customer portal? As a Teams app? As a standalone browser widget?\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── LEGAL / PRIVACY ───
+      heading2("14.13 Legal / Privacy / Trade Compliance"),
+      heading3("Engagement Priority: High — Weeks 2\u20133"),
+      boldPara("Key Tasks: ", "Review AI disclosure requirements, assess ITAR/EAR implications for AI-served technical content, define data retention policies for conversation logs, approve responsible AI usage terms, validate CHIPS Act compliance for any government-funded program data."),
+      heading3("Talking Points"),
+      bullet("\"Do we need to disclose to customers that they\u2019re interacting with an AI? What language is required in your jurisdiction?\""),
+      bullet("\"For export-controlled content, the AI will never serve ITAR/EAR restricted data without identity verification through Entra ID and proper clearance classification.\""),
+      bullet("\"Conversation logs will be retained for [X days/months] in Cosmos DB within your Azure tenant. What\u2019s your data retention policy?\""),
+      bullet("\"Are there any CHIPS Act reporting obligations that affect how we handle AI interactions related to government-funded programs?\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── CHANGE MANAGEMENT ───
+      heading2("14.14 Change Management / Training"),
+      heading3("Engagement Priority: Medium — Weeks 4\u20135"),
+      boldPara("Key Tasks: ", "Develop adoption strategy, create training materials for TSEs and end users, plan pilot rollout (recommended: one product line first), design feedback collection mechanisms, set adoption KPIs."),
+      heading3("Talking Points"),
+      bullet("\"We recommend piloting with one product line \u2014 e.g., SSD technical support \u2014 before expanding. This limits blast radius and lets us tune the AI with a focused team.\""),
+      bullet("\"Lenovo went from zero to second-largest Copilot user in 45 days. Fast adoption is possible when the tool genuinely saves time.\""),
+      bullet("\"What\u2019s your preferred training format? Hands-on workshops, video walkthroughs, or embedded guides within the tool?\""),
+      bullet("\"We\u2019ll track adoption daily: queries per agent, AI-assisted resolution rate, and qualitative feedback from pilot users.\""),
+
+      new Paragraph({ spacing: { before: 200 } }),
+
+      // ─── QUALITY & RELIABILITY ───
+      heading2("14.15 Quality & Reliability Engineering"),
+      heading3("Engagement Priority: Medium — Weeks 3\u20134"),
+      boldPara("Key Tasks: ", "Define accuracy test suite against product specifications, validate AI responses meet ISO 9001 / IATF 16949 / AEC-Q100 standards, establish regression testing protocol, plan load testing for global concurrent sessions."),
+      heading3("Talking Points"),
+      bullet("\"Every AI response citing reliability data, qualification reports, or failure analysis procedures must meet your engineering accuracy standards. We need your team to define \u2018pass\u2019 criteria.\""),
+      bullet("\"We\u2019ll build an automated test suite of 100+ verified Q&A pairs that runs on every knowledge base update. Your team defines the golden answers.\""),
+      bullet("\"For automotive-grade products (AEC-Q100), can the AI cite qualification data? Or must those queries always route to a human AE?\""),
+      bullet("\"What\u2019s the target for concurrent sessions globally? We need to load test across Asia, Europe, and Americas time zones.\""),
     ],
   }],
 });

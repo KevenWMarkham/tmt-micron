@@ -82,6 +82,42 @@ const ARCHITECTURE = {
   ],
 };
 
+const ARCHITECTURE_FOUNDRY = {
+  layers: [
+    ARCHITECTURE.layers[0], // User Channels — same
+    {
+      name: "Orchestration Layer",
+      desc: "Enterprise agent management",
+      components: [
+        { name: "Azure AI Foundry", icon: "\uD83C\uDFED", desc: "Agent development & governance" },
+        { name: "Foundry Agent Service", icon: "\uD83E\uDD16", desc: "Autonomous agent runtime" },
+        { name: "Azure Logic Apps", icon: "\u26A1", desc: "Workflow automation & triggers" },
+      ],
+      color: BRAND.green,
+    },
+    {
+      name: "AI & Knowledge",
+      desc: "Intelligence & retrieval pipeline",
+      components: [
+        { name: "Azure OpenAI (Multi-tier)", icon: "\uD83E\uDDE0", desc: "Pro / Basic / Lite model tiers" },
+        { name: "Azure AI Search", icon: "\uD83D\uDD0D", desc: "Semantic retrieval & ranking" },
+        { name: "Acme Corp Knowledge Base", icon: "\uD83D\uDCDA", desc: "Curated internal docs" },
+      ],
+      color: BRAND.neonGreen,
+    },
+    {
+      name: "Enterprise Integration",
+      desc: "Security, identity & operations",
+      components: [
+        { name: "Entra ID (Mandatory)", icon: "\uD83D\uDD10", desc: "Zero-trust, no API key auth" },
+        { name: "Cosmos DB + Fabric", icon: "\uD83D\uDCCA", desc: "Analytics pipeline + Power BI" },
+        { name: "Azure Monitor", icon: "\uD83D\uDCC8", desc: "Dual logging (tech + conversation)" },
+      ],
+      color: BRAND.darkGray,
+    },
+  ],
+};
+
 const KNOWLEDGE_BASE = [
   {
     q: ["what is ai", "artificial intelligence", "define ai", "explain ai"],
@@ -233,6 +269,32 @@ const SUGGESTED_QUESTIONS = [
   { text: "What analytics are available?", icon: "📊" },
   { text: "Explain RAG architecture", icon: "⚙️" },
 ];
+
+const MOCK_ANALYTICS = {
+  historicalConversations: 1247,
+  historicalResolution: 87,
+  historicalCSAT: 92,
+  historicalAvgTime: 1.4,
+  sentiment: { positive: 68, neutral: 24, negative: 8 },
+  callReasons: [
+    { label: "AI Fundamentals", count: 312, pct: 25 },
+    { label: "Security & Compliance", count: 249, pct: 20 },
+    { label: "Architecture", count: 187, pct: 15 },
+    { label: "Platform Tools", count: 162, pct: 13 },
+    { label: "Voice & Channels", count: 125, pct: 10 },
+    { label: "Escalation/Support", count: 112, pct: 9 },
+    { label: "Other", count: 100, pct: 8 },
+  ],
+  csatTrend: [
+    { day: "Mon", value: 89 },
+    { day: "Tue", value: 91 },
+    { day: "Wed", value: 88 },
+    { day: "Thu", value: 94 },
+    { day: "Fri", value: 92 },
+    { day: "Sat", value: 95 },
+    { day: "Sun", value: 93 },
+  ],
+};
 
 // ─── Improved fuzzy matching with TF-IDF-inspired scoring ───
 function findAnswer(input) {
@@ -444,6 +506,59 @@ function ConfidenceBadge({ confidence }) {
   );
 }
 
+// ─── Function Call Card ───
+function ToolCallCard({ functionName, args, status }) {
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", gap: 10,
+      padding: "10px 14px", borderRadius: 10,
+      backgroundColor: BRAND.bgLight,
+      border: `1px solid ${BRAND.border}`,
+      fontSize: 12, fontFamily: "monospace",
+      color: BRAND.textSecondary,
+    }}>
+      <span style={{
+        width: 20, height: 20, borderRadius: 6,
+        backgroundColor: status === "completed" ? BRAND.greenBg : BRAND.lightBlue,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 10, flexShrink: 0,
+      }}>
+        {status === "completed" ? "\u2713" : "\u27F3"}
+      </span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 600, color: BRAND.textPrimary, fontSize: 11 }}>
+          {functionName}
+        </div>
+        <div style={{ fontSize: 10, color: BRAND.textTertiary, marginTop: 2 }}>
+          {args}
+        </div>
+      </div>
+      <span style={{
+        fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5,
+        color: status === "completed" ? BRAND.green : BRAND.blue,
+      }}>
+        {status === "completed" ? "Done" : "Running..."}
+      </span>
+    </div>
+  );
+}
+
+// ─── Function Call Map ───
+const FUNCTION_MAP = {
+  "General AI": { fn: "search_knowledge_base", args: (q) => `query="${q}"` },
+  "Architecture": { fn: "search_knowledge_base", args: (q) => `query="${q}", source="architecture"` },
+  "Platform": { fn: "search_knowledge_base", args: (q) => `query="${q}", source="platform"` },
+  "Security": { fn: "query_security_policies", args: (q) => `query="${q}", classification="internal"` },
+  "Voice": { fn: "get_voice_config", args: () => `channel="all", include_status=true` },
+  "Channels": { fn: "search_knowledge_base", args: (q) => `query="${q}", source="channels"` },
+  "Support": { fn: "route_escalation", args: () => `priority="normal", include_context=true` },
+  "Operations": { fn: "get_analytics_summary", args: () => `period="30d", metrics=["resolution","csat","volume"]` },
+  "Integration": { fn: "search_knowledge_base", args: (q) => `query="${q}", source="integrations"` },
+  "Project": { fn: "get_project_status", args: () => `include_criteria=true` },
+  "UX": { fn: "search_knowledge_base", args: (q) => `query="${q}", source="ux"` },
+  "About": { fn: "get_assistant_config", args: () => `include_capabilities=true` },
+};
+
 // ─── Source Tag ───
 function SourceTag({ source }) {
   if (!source || source === "—") return null;
@@ -461,6 +576,7 @@ function SourceTag({ source }) {
 // ─── Chat Message ───
 function ChatMessage({ msg, isLast, onFeedback, onCopy, onEscalate }) {
   const isBot = msg.role === "bot";
+  const isTool = msg.role === "tool";
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -469,6 +585,29 @@ function ChatMessage({ msg, isLast, onFeedback, onCopy, onEscalate }) {
     onCopy?.(msg.id);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (isTool) {
+    return (
+      <div style={{
+        display: "flex", alignItems: "flex-start", gap: 10,
+        marginBottom: 12, animation: isLast ? "fadeSlideIn 0.35s cubic-bezier(0.16,1,0.3,1)" : "none",
+      }} role="listitem" aria-label="Function call">
+        <div style={{
+          width: 34, height: 34, borderRadius: "50%", background: BRAND.darkGray,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0, marginTop: 2,
+        }} aria-hidden="true">
+          <BrandIcon size={17} />
+        </div>
+        <div style={{ maxWidth: "78%", minWidth: 0 }}>
+          <ToolCallCard functionName={msg.functionName} args={msg.functionArgs} status={msg.toolStatus} />
+          <div style={{ fontSize: 10, color: BRAND.textTertiary, marginTop: 4, paddingLeft: 2 }}>
+            {msg.time} {msg.responseTime && <span>· {msg.responseTime}s</span>}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -573,9 +712,12 @@ function ChatMessage({ msg, isLast, onFeedback, onCopy, onEscalate }) {
 // ─── Architecture View ───
 function ArchitectureView() {
   const [expanded, setExpanded] = useState(null);
+  const [archPath, setArchPath] = useState("copilot");
+  const currentArch = archPath === "copilot" ? ARCHITECTURE : ARCHITECTURE_FOUNDRY;
+
   return (
     <div style={{ padding: "24px 20px", maxWidth: 700, margin: "0 auto" }}>
-      <div style={{ marginBottom: 24 }}>
+      <div style={{ marginBottom: 16 }}>
         <h2 style={{
           fontSize: 18, fontWeight: 700, color: BRAND.textPrimary,
           margin: "0 0 6px 0", fontFamily: "inherit",
@@ -587,7 +729,44 @@ function ArchitectureView() {
         </p>
       </div>
 
-      {ARCHITECTURE.layers.map((layer, li) => (
+      {/* Path toggle */}
+      <div style={{
+        display: "flex", gap: 0, marginBottom: 16,
+        borderRadius: 10, overflow: "hidden",
+        border: `1.5px solid ${BRAND.border}`,
+      }}>
+        {[
+          { id: "copilot", label: "Copilot Studio Path" },
+          { id: "foundry", label: "AI Foundry Path" },
+        ].map(path => (
+          <button
+            key={path.id}
+            onClick={() => { setArchPath(path.id); setExpanded(null); }}
+            style={{
+              flex: 1, padding: "8px 12px",
+              fontSize: 11, fontWeight: archPath === path.id ? 700 : 500,
+              color: archPath === path.id ? BRAND.white : BRAND.textSecondary,
+              backgroundColor: archPath === path.id ? BRAND.green : BRAND.surface,
+              border: "none", cursor: "pointer", fontFamily: "inherit",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {path.label}
+          </button>
+        ))}
+      </div>
+
+      {archPath === "foundry" && (
+        <div style={{
+          padding: "10px 14px", borderRadius: 8, marginBottom: 16,
+          backgroundColor: BRAND.lightBlue, border: `1px solid rgba(0,163,224,0.2)`,
+          fontSize: 11, color: BRAND.textSecondary, lineHeight: 1.5,
+        }}>
+          <strong style={{ color: BRAND.blue }}>AI Foundry Path:</strong> Azure AI Foundry provides enterprise governance, autonomous agent capabilities, and built-in multi-language support. Recommended for organizations already invested in the Foundry ecosystem. Supports agent versioning and cross-resource deployment.
+        </div>
+      )}
+
+      {currentArch.layers.map((layer, li) => (
         <div key={li} style={{ marginBottom: 16 }}>
           <div
             style={{
@@ -641,7 +820,7 @@ function ArchitectureView() {
             </div>
           )}
 
-          {li < ARCHITECTURE.layers.length - 1 && (
+          {li < currentArch.layers.length - 1 && (
             <div style={{
               textAlign: "center", padding: "4px 0",
               color: BRAND.textTertiary, fontSize: 14, letterSpacing: 2,
@@ -659,13 +838,19 @@ function ArchitectureView() {
         <div style={{ fontWeight: 700, color: BRAND.green, marginBottom: 8, fontSize: 11, textTransform: "uppercase", letterSpacing: 0.8 }}>
           Success Criteria Mapping
         </div>
-        {[
+        {(archPath === "copilot" ? [
           ["Resolution accuracy", "Azure AI Search + OpenAI RAG pipeline"],
           ["Response speed", "Copilot Studio orchestration (sub-2s target)"],
           ["Dual data sources", "Azure AI Search + Azure OpenAI"],
           ["Chat-voice parity", "Copilot Studio multi-channel publishing"],
           ["Branded UX", "Copilot Studio customization + Partner Agency design"],
-        ].map(([k, v], i) => (
+        ] : [
+          ["Resolution accuracy", "Azure AI Search + OpenAI RAG pipeline"],
+          ["Response speed", "AI Foundry Agent Service (sub-2s target)"],
+          ["Dual data sources", "Azure AI Search + Azure OpenAI"],
+          ["Chat-voice parity", "Foundry Agent + Bot Service multi-channel"],
+          ["Branded UX", "Foundry Agent UX + Partner Agency design"],
+        ]).map(([k, v], i) => (
           <div key={i} style={{ display: "flex", gap: 8, marginBottom: i < 4 ? 4 : 0 }}>
             <span style={{ color: BRAND.green, fontWeight: 700, minWidth: 8 }}>→</span>
             <span><strong>{k}</strong> — {v}</span>
@@ -678,76 +863,257 @@ function ArchitectureView() {
 
 // ─── Voice View ───
 function VoiceView({ isListening, toggleVoice }) {
+  const [vadMode, setVadMode] = useState("server");
+  const [transcript, setTranscript] = useState("");
+
+  useEffect(() => {
+    if (!isListening) { setTranscript(""); return; }
+    const words = "What are the voice capabilities of this assistant".split(" ");
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < words.length) {
+        setTranscript(prev => (prev ? prev + " " : "") + words[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 280);
+    return () => clearInterval(interval);
+  }, [isListening]);
+
   return (
-    <div style={{
-      flex: 1, display: "flex", flexDirection: "column",
-      alignItems: "center", justifyContent: "center", gap: 28, padding: 24,
-    }}>
-      <div
-        onClick={toggleVoice}
-        role="button"
-        tabIndex={0}
-        aria-label={isListening ? "Stop listening" : "Start voice input"}
-        onKeyDown={e => e.key === "Enter" && toggleVoice()}
-        style={{
-          width: 110, height: 110, borderRadius: "50%",
-          backgroundColor: isListening ? BRAND.red : BRAND.darkGray,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          cursor: "pointer", color: BRAND.white,
-          animation: isListening ? "voicePulse 1.5s ease-in-out infinite" : "none",
-          transition: "background-color 0.3s ease",
-          boxShadow: isListening ? `0 0 0 0 rgba(196,49,75,0.3)` : BRAND.shadowLg,
-        }}
-      >
-        <VoiceIcon size={36} />
-      </div>
-
-      <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: 20, fontWeight: 700, color: BRAND.textPrimary, marginBottom: 8 }}>
-          {isListening ? "Listening..." : "Tap to speak"}
-        </div>
-        <div style={{
-          fontSize: 13, color: BRAND.textSecondary, maxWidth: 380, lineHeight: 1.6, margin: "0 auto",
-        }}>
-          Voice powered by <strong style={{ color: BRAND.textPrimary }}>Azure AI Speech Services</strong> with real-time
-          speech-to-text and natural neural voice responses. Connected to the same Copilot Studio agent
-          for full content parity across channels.
-        </div>
-      </div>
-
-      {isListening && (
-        <div style={{ display: "flex", gap: 3, alignItems: "center", height: 40 }}>
-          {Array.from({ length: 24 }).map((_, i) => (
-            <div key={i} style={{
-              width: 3, borderRadius: 2,
-              backgroundColor: BRAND.green,
-              height: `${Math.random() * 28 + 6}px`,
-              animation: `audioBar ${0.35 + Math.random() * 0.4}s ease-in-out ${Math.random() * 0.2}s infinite alternate`,
-              opacity: 0.6 + Math.random() * 0.4,
-            }} />
-          ))}
-        </div>
-      )}
-
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: 24, overflowY: "auto" }}>
+      {/* Connection status */}
       <div style={{
-        display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12,
-        maxWidth: 420, width: "100%",
+        display: "flex", alignItems: "center", gap: 8,
+        padding: "8px 14px", borderRadius: 8, marginBottom: 16,
+        backgroundColor: BRAND.greenBg, border: `1px solid rgba(134,188,37,0.2)`,
       }}>
+        <span style={{
+          width: 8, height: 8, borderRadius: "50%",
+          backgroundColor: BRAND.green, display: "inline-block",
+          animation: "pulse 2.5s ease-in-out infinite",
+        }} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: BRAND.green }}>WebSocket Connected</span>
+        <span style={{ fontSize: 10, color: BRAND.textTertiary, fontFamily: "monospace", marginLeft: "auto" }}>
+          wss://eastus.voice.api.cognitive.microsoft.com/v1/voicelive
+        </span>
+      </div>
+
+      {/* Audio config grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }}>
         {[
-          { icon: "💬", label: "Teams Voice", desc: "Direct calling" },
-          { icon: "🌐", label: "Browser Widget", desc: "Web voice input" },
-          { icon: "📞", label: "Telephony", desc: "Bot Service IVR" },
-        ].map((ch, i) => (
-          <div key={i} style={{
-            padding: "14px 12px", borderRadius: 12, textAlign: "center",
+          { label: "Sample Rate", value: "24kHz PCM16 Mono", icon: "\uD83D\uDD0A" },
+          { label: "VAD Mode", value: vadMode === "server" ? "Server VAD" : "Semantic VAD", icon: "\uD83C\uDF9A\uFE0F",
+            onClick: () => setVadMode(v => v === "server" ? "semantic" : "server") },
+          { label: "Model", value: "gpt-4o-realtime (Pro)", icon: "\uD83E\uDDE0" },
+          { label: "Voice", value: "en-US-Ava:DragonHD", icon: "\uD83D\uDDE3\uFE0F" },
+        ].map((cfg, i) => (
+          <div key={i} onClick={cfg.onClick} style={{
+            padding: "10px 14px", borderRadius: 10,
             backgroundColor: BRAND.surface, border: `1px solid ${BRAND.border}`,
-            boxShadow: BRAND.shadow,
+            boxShadow: BRAND.shadow, cursor: cfg.onClick ? "pointer" : "default",
           }}>
-            <div style={{ fontSize: 20, marginBottom: 6 }}>{ch.icon}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: BRAND.textPrimary }}>{ch.label}</div>
-            <div style={{ fontSize: 10, color: BRAND.textSecondary }}>{ch.desc}</div>
+            <div style={{ fontSize: 10, color: BRAND.textTertiary, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>
+              {cfg.icon} {cfg.label}
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: BRAND.textPrimary, marginTop: 4 }}>{cfg.value}</div>
           </div>
         ))}
+      </div>
+
+      {/* Microphone + waveform area */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 20 }}>
+        <div onClick={toggleVoice} role="button" tabIndex={0}
+          aria-label={isListening ? "Stop listening" : "Start voice input"}
+          onKeyDown={e => e.key === "Enter" && toggleVoice()}
+          style={{
+            width: 90, height: 90, borderRadius: "50%",
+            backgroundColor: isListening ? BRAND.red : BRAND.darkGray,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "pointer", color: BRAND.white,
+            animation: isListening ? "voicePulse 1.5s ease-in-out infinite" : "none",
+            transition: "background-color 0.3s ease",
+            boxShadow: isListening ? "0 0 0 0 rgba(196,49,75,0.3)" : BRAND.shadowLg,
+          }}>
+          <VoiceIcon size={32} />
+        </div>
+
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: BRAND.textPrimary }}>
+            {isListening ? "Listening..." : "Tap to speak"}
+          </div>
+          <div style={{ fontSize: 12, color: BRAND.textSecondary, marginTop: 4 }}>
+            Powered by <strong>Azure Voice Live API</strong> · Real-time bidirectional audio
+          </div>
+        </div>
+
+        {isListening && (
+          <div style={{ display: "flex", gap: 3, alignItems: "center", height: 36 }}>
+            {Array.from({ length: 24 }).map((_, i) => (
+              <div key={i} style={{
+                width: 3, borderRadius: 2, backgroundColor: BRAND.green,
+                height: `${Math.random() * 28 + 6}px`,
+                animation: `audioBar ${0.35 + Math.random() * 0.4}s ease-in-out ${Math.random() * 0.2}s infinite alternate`,
+                opacity: 0.6 + Math.random() * 0.4,
+              }} />
+            ))}
+          </div>
+        )}
+
+        {isListening && transcript && (
+          <div style={{
+            padding: "10px 16px", borderRadius: 10, maxWidth: 420, width: "100%",
+            backgroundColor: BRAND.surface, border: `1px solid ${BRAND.border}`,
+            boxShadow: BRAND.shadow, textAlign: "center",
+          }}>
+            <div style={{ fontSize: 10, color: BRAND.textTertiary, marginBottom: 4, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5 }}>
+              Live Transcript
+            </div>
+            <div style={{ fontSize: 14, color: BRAND.textPrimary, lineHeight: 1.5 }}>
+              {transcript}<span style={{ animation: "pulse 1s infinite", color: BRAND.green }}>|</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Channel cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 16 }}>
+        {[
+          { icon: "\uD83D\uDCAC", label: "Teams Voice", desc: "Direct calling via Bot Service" },
+          { icon: "\uD83C\uDF10", label: "Browser Widget", desc: "WebSocket audio streaming" },
+          { icon: "\uD83D\uDCDE", label: "Telephony", desc: "Azure Communication Services" },
+        ].map((ch, i) => (
+          <div key={i} style={{
+            padding: "12px 10px", borderRadius: 10, textAlign: "center",
+            backgroundColor: BRAND.surface, border: `1px solid ${BRAND.border}`, boxShadow: BRAND.shadow,
+          }}>
+            <div style={{ fontSize: 18, marginBottom: 4 }}>{ch.icon}</div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: BRAND.textPrimary }}>{ch.label}</div>
+            <div style={{ fontSize: 9, color: BRAND.textSecondary }}>{ch.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Analytics View ───
+function AnalyticsView({ stats }) {
+  const totalConversations = MOCK_ANALYTICS.historicalConversations + stats.total;
+  const resolution = stats.total > 0
+    ? Math.round(((stats.resolved + Math.round(MOCK_ANALYTICS.historicalConversations * MOCK_ANALYTICS.historicalResolution / 100)) / totalConversations) * 100)
+    : MOCK_ANALYTICS.historicalResolution;
+  const satisfaction = stats.feedback.up + stats.feedback.down > 0
+    ? Math.round(((stats.feedback.up + Math.round(MOCK_ANALYTICS.historicalConversations * MOCK_ANALYTICS.historicalCSAT / 100)) / totalConversations) * 100)
+    : MOCK_ANALYTICS.historicalCSAT;
+
+  return (
+    <div style={{ padding: "24px 20px", maxWidth: 700, margin: "0 auto" }}>
+      <div style={{ marginBottom: 20 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: BRAND.textPrimary, margin: "0 0 6px 0", fontFamily: "inherit" }}>
+          Conversation <span style={{ fontStyle: "italic", color: BRAND.green }}>Analytics</span>
+        </h2>
+        <p style={{ fontSize: 13, color: BRAND.textSecondary, margin: 0, lineHeight: 1.5 }}>
+          Real-time insights powered by Cosmos DB, Microsoft Fabric, and Power BI.
+        </p>
+      </div>
+
+      {/* Summary cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+        {[
+          { label: "Total Conversations", value: totalConversations.toLocaleString(), color: BRAND.textPrimary },
+          { label: "Resolution Rate", value: `${resolution}%`, color: BRAND.green },
+          { label: "Avg Handle Time", value: `${MOCK_ANALYTICS.historicalAvgTime}s`, color: BRAND.blue },
+          { label: "CSAT Score", value: `${satisfaction}%`, color: BRAND.green },
+        ].map((card, i) => (
+          <div key={i} style={{
+            padding: "16px 14px", borderRadius: 12, textAlign: "center",
+            backgroundColor: BRAND.surface, border: `1px solid ${BRAND.border}`, boxShadow: BRAND.shadow,
+          }}>
+            <div style={{ fontSize: 24, fontWeight: 700, color: card.color }}>{card.value}</div>
+            <div style={{ fontSize: 10, color: BRAND.textTertiary, fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.5, marginTop: 4 }}>{card.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Sentiment breakdown */}
+      <div style={{
+        padding: "16px 18px", borderRadius: 12, marginBottom: 20,
+        backgroundColor: BRAND.surface, border: `1px solid ${BRAND.border}`, boxShadow: BRAND.shadow,
+      }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: BRAND.textPrimary, marginBottom: 12 }}>Sentiment Analysis</div>
+        <div style={{ display: "flex", borderRadius: 6, overflow: "hidden", height: 28, marginBottom: 8 }}>
+          <div style={{ width: `${MOCK_ANALYTICS.sentiment.positive}%`, backgroundColor: BRAND.green }} />
+          <div style={{ width: `${MOCK_ANALYTICS.sentiment.neutral}%`, backgroundColor: BRAND.blue }} />
+          <div style={{ width: `${MOCK_ANALYTICS.sentiment.negative}%`, backgroundColor: BRAND.red }} />
+        </div>
+        <div style={{ display: "flex", gap: 16, fontSize: 11 }}>
+          {[
+            { label: "Positive", value: MOCK_ANALYTICS.sentiment.positive, color: BRAND.green },
+            { label: "Neutral", value: MOCK_ANALYTICS.sentiment.neutral, color: BRAND.blue },
+            { label: "Negative", value: MOCK_ANALYTICS.sentiment.negative, color: BRAND.red },
+          ].map((s, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <span style={{ width: 8, height: 8, borderRadius: 2, backgroundColor: s.color }} />
+              <span style={{ color: BRAND.textSecondary }}>{s.label}</span>
+              <span style={{ fontWeight: 700, color: BRAND.textPrimary }}>{s.value}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Top call reasons */}
+      <div style={{
+        padding: "16px 18px", borderRadius: 12, marginBottom: 20,
+        backgroundColor: BRAND.surface, border: `1px solid ${BRAND.border}`, boxShadow: BRAND.shadow,
+      }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: BRAND.textPrimary, marginBottom: 12 }}>Top Call Reasons</div>
+        {MOCK_ANALYTICS.callReasons.map((reason, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+            <div style={{ width: 110, fontSize: 11, color: BRAND.textSecondary, textAlign: "right", flexShrink: 0 }}>{reason.label}</div>
+            <div style={{ flex: 1, height: 18, backgroundColor: BRAND.lightGray, borderRadius: 4, overflow: "hidden" }}>
+              <div style={{
+                width: `${reason.pct}%`, height: "100%",
+                backgroundColor: i === 0 ? BRAND.green : i < 3 ? BRAND.blue : BRAND.textTertiary,
+                borderRadius: 4,
+              }} />
+            </div>
+            <div style={{ width: 40, fontSize: 11, fontWeight: 600, color: BRAND.textPrimary }}>{reason.pct}%</div>
+          </div>
+        ))}
+      </div>
+
+      {/* CSAT trend */}
+      <div style={{
+        padding: "16px 18px", borderRadius: 12, marginBottom: 20,
+        backgroundColor: BRAND.surface, border: `1px solid ${BRAND.border}`, boxShadow: BRAND.shadow,
+      }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: BRAND.textPrimary, marginBottom: 12 }}>CSAT Trend (Last 7 Days)</div>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 120 }}>
+          {MOCK_ANALYTICS.csatTrend.map((day, i) => (
+            <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: BRAND.textPrimary }}>{day.value}%</div>
+              <div style={{
+                width: "100%", borderRadius: "4px 4px 0 0",
+                height: `${(day.value - 80) * 5}px`,
+                backgroundColor: day.value >= 90 ? BRAND.green : BRAND.amber,
+              }} />
+              <div style={{ fontSize: 10, color: BRAND.textTertiary }}>{day.day}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Data source attribution */}
+      <div style={{
+        padding: "12px 16px", borderRadius: 8,
+        background: `linear-gradient(135deg, rgba(134,188,37,0.06) 0%, rgba(0,163,224,0.04) 100%)`,
+        border: `1px solid rgba(134,188,37,0.15)`, textAlign: "center",
+      }}>
+        <span style={{ fontSize: 11, color: BRAND.textSecondary }}>
+          Powered by <strong style={{ color: BRAND.textPrimary }}>Cosmos DB</strong> · <strong style={{ color: BRAND.textPrimary }}>Microsoft Fabric</strong> · <strong style={{ color: BRAND.textPrimary }}>Power BI</strong>
+        </span>
       </div>
     </div>
   );
@@ -798,21 +1164,47 @@ export default function AIAssistant() {
       const result = findAnswer(msg);
       const elapsed = ((Date.now() - start) / 1000).toFixed(1);
       const botTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      const botId = idRef.current++;
 
-      setMessages(prev => [...prev, {
-        id: botId, role: "bot", text: result.text,
-        category: result.category, confidence: result.confidence,
-        source: result.source, related: result.related,
-        time: botTime, responseTime: elapsed, feedback: null,
-      }]);
-      setIsTyping(false);
-      setStats(prev => {
-        const newTotal = prev.total + 1;
-        const newResolved = prev.resolved + (result.confidence === "High" || result.confidence === "Medium" ? 1 : 0);
-        const newAvg = ((prev.avgTime * prev.total) + parseFloat(elapsed)) / newTotal;
-        return { ...prev, total: newTotal, resolved: newResolved, avgTime: newAvg };
-      });
+      const skipToolCall = ["Greeting", "Courtesy", "Unmatched"].includes(result.category) || !result.category;
+
+      const addAnswer = (finalElapsed) => {
+        const answerTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const botId = idRef.current++;
+        setMessages(prev => [...prev, {
+          id: botId, role: "bot", text: result.text,
+          category: result.category, confidence: result.confidence,
+          source: result.source, related: result.related,
+          time: answerTime, responseTime: finalElapsed, feedback: null,
+        }]);
+        setIsTyping(false);
+        setStats(prev => {
+          const newTotal = prev.total + 1;
+          const newResolved = prev.resolved + (result.confidence === "High" || result.confidence === "Medium" ? 1 : 0);
+          const newAvg = ((prev.avgTime * prev.total) + parseFloat(finalElapsed)) / newTotal;
+          return { ...prev, total: newTotal, resolved: newResolved, avgTime: newAvg };
+        });
+      };
+
+      if (skipToolCall) {
+        addAnswer(elapsed);
+      } else {
+        // Show tool call card first
+        const toolId = idRef.current++;
+        const fnInfo = FUNCTION_MAP[result.category] || FUNCTION_MAP["General AI"];
+        setMessages(prev => [...prev, {
+          id: toolId, role: "tool",
+          functionName: fnInfo.fn,
+          functionArgs: fnInfo.args(msg),
+          toolStatus: "running",
+          time: botTime,
+        }]);
+
+        setTimeout(() => {
+          const finalElapsed = ((Date.now() - start) / 1000).toFixed(1);
+          setMessages(prev => prev.map(m => m.id === toolId ? { ...m, toolStatus: "completed", responseTime: elapsed } : m));
+          addAnswer(finalElapsed);
+        }, 500);
+      }
     }, delay);
   }, [input, isTyping]);
 
@@ -991,6 +1383,7 @@ export default function AIAssistant() {
         {[
           { id: "chat", label: "Chat", icon: "💬" },
           { id: "voice", label: "Voice", icon: "🎙" },
+          { id: "analytics", label: "Analytics", icon: "📊" },
           { id: "architecture", label: "Architecture", icon: "⚙️" },
         ].map(tab => (
           <button
@@ -1016,7 +1409,11 @@ export default function AIAssistant() {
       </nav>
 
       {/* ─── Content Panels ─── */}
-      {activeTab === "architecture" ? (
+      {activeTab === "analytics" ? (
+        <div id="panel-analytics" role="tabpanel" style={{ flex: 1, overflowY: "auto" }}>
+          <AnalyticsView stats={stats} />
+        </div>
+      ) : activeTab === "architecture" ? (
         <div id="panel-architecture" role="tabpanel" style={{ flex: 1, overflowY: "auto" }}>
           <ArchitectureView />
         </div>

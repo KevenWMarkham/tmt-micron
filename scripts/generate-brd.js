@@ -386,9 +386,159 @@ const doc = new Document({
       new Paragraph({ children: [new PageBreak()] }),
 
       // ═══════════════════════════════════════
+      // 2. STAKEHOLDERS
+      // ═══════════════════════════════════════
+      heading1("2. Stakeholders"),
+
+      para("Successful deployment of the AI Support Assistant requires engagement from the following functional areas. Each stakeholder group plays a critical role in requirements definition, validation, adoption, and ongoing governance. Functional areas are mapped to a semiconductor organization structure."),
+
+      // Stakeholder table
+      new Table({
+        width: { size: 9360, type: WidthType.DXA },
+        columnWidths: [2200, 1800, 5360],
+        rows: [
+          new TableRow({ children: [
+            headerCell("Functional Area", 2200), headerCell("Role(s)", 1800), headerCell("Responsibilities & Demo Involvement", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Executive Sponsor", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("CIO, CTO, SVP of Global Operations", 1800),
+            cell("Champions the initiative at the leadership level. Provides budget authority, resolves cross-functional conflicts between business units (DRAM, NAND, SSD), and validates strategic alignment with corporate digital transformation objectives. Approves phase gate transitions and final go-live.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Technical Support Engineering", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("VP of Technical Support, TSE Managers, FAE Team Leads", 1800),
+            cell("Primary business owners. Define knowledge base content covering product specifications, qualification data, reliability reports, and design-in guidance. Set escalation policies for Tier 1/2/3 support routing, call reason taxonomy (RMA, qualification, compatibility, firmware), and quality thresholds. Validate chat responses against product datasheets. Key users of the Analytics dashboard for case deflection and resolution metrics.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Applications Engineering", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("Applications Engineers, Solutions Architects, Design-In Support", 1800),
+            cell("Provide deep technical SME input for the knowledge base: memory interface design, signal integrity, thermal management, firmware integration, and platform compatibility. Validate that AI responses to technical queries meet engineering accuracy standards. Define when queries must escalate from AI to human AE (e.g., custom characterization requests, NDA-protected data).", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Manufacturing / Fab Operations", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("VP of Manufacturing, Fab Managers, Process Engineers", 1800),
+            cell("Stakeholders for internal-facing support use cases: fab process documentation, equipment troubleshooting, yield analysis procedures, and clean room protocols. Define knowledge domains for internal engineer self-service. Validate that sensitive manufacturing IP is properly classified and access-controlled within the RAG pipeline.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "IT / Cloud Infrastructure", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("Cloud Architect, Platform Engineer, DevOps Lead", 1800),
+            cell("Provision and manage Azure resources (OpenAI, AI Search, Cosmos DB, Fabric). Configure networking (private endpoints, VNets, ExpressRoute to on-prem fab systems), CI/CD pipelines, and monitoring. Integrate with existing semiconductor ERP (SAP) and PLM systems. Validate the Architecture tab for technical accuracy and feasibility.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Information Security & Export Controls", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("CISO, Security Architect, Export Control Officer", 1800),
+            cell("Approve security architecture: Entra ID integration, RBAC policies, data residency controls, and encryption standards. Critical semiconductor-specific concerns: ITAR/EAR export control compliance for restricted product data, IP protection for process technology and design rules, CHIPS Act compliance for government-funded programs, and controlled unclassified information (CUI) handling. Review AI safety guardrails to prevent inadvertent disclosure of restricted technical data.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Supply Chain / Sales Operations", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("VP of Sales Ops, Supply Chain Manager, Order Management Lead", 1800),
+            cell("Define support workflows for customer-facing queries: order status, lead times, allocation updates, inventory availability, and pricing. Own the integration requirements with SAP and CRM (Dynamics 365) for real-time order data. Validate function calling for order lookup and shipment tracking. Key consumers of the Analytics dashboard for customer interaction trends.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Data & Analytics", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("Chief Data Officer, Analytics Lead, BI Developer", 1800),
+            cell("Define KPIs, reporting requirements, and data governance policies. Own the Cosmos DB to Fabric to Power BI pipeline. Integrate with existing manufacturing intelligence and yield analytics platforms. Validate the Analytics tab for metric accuracy, sentiment scoring methodology, and dashboard design.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "AI / Machine Learning", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("AI/ML Lead, Prompt Engineer, Data Scientist", 1800),
+            cell("Configure Azure OpenAI models, tune RAG pipeline parameters for semiconductor-specific terminology and part numbers, design function calling schemas, and optimize prompt templates. Evaluate model tier selection (Pro for complex technical queries, Basic for order status, Lite for FAQs). Coordinate with existing AI/ML teams working on yield prediction and defect detection.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Unified Communications / Telephony", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("UC Manager, Teams Administrator, Telephony Engineer", 1800),
+            cell("Configure Microsoft Teams voice channels, Azure Communication Services for PSTN/telephony, and browser widget deployment for customer portal integration. Validate the Voice tab for channel parity and Voice Live API integration. Coordinate with existing global telephony infrastructure across fab sites and regional offices.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Knowledge Management / Technical Publications", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("Knowledge Manager, Technical Writers, Product Marketing", 1800),
+            cell("Curate and index knowledge base content: product datasheets, technical notes, reliability qualification reports, application notes, JEDEC compliance documentation, firmware release notes, and design guides. Define content classification (public, customer NDA, internal only) for RAG access control. Manage update workflows as new product revisions and errata are published.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Product / Digital Experience", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("Product Owner, UX Designer, Digital Channel Lead", 1800),
+            cell("Define user experience requirements and branding guidelines for customer-facing and internal portals. Own the end-user journey across chat, voice, and self-service channels. Design conversation flows for product selection, cross-reference lookup, and parametric search. Validate branded UX, suggested questions, and response formatting.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Legal / Privacy / Trade Compliance", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("General Counsel, Privacy Officer, Trade Compliance Director", 1800),
+            cell("Review AI disclosure requirements, data retention policies, and conversation recording consent. Semiconductor-specific: export control screening for customer interactions, trade secret protection in AI responses, CHIPS Act reporting obligations, NDA enforcement for restricted product data, and anti-circumvention compliance. Approve terms of use for AI-assisted interactions.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Change Management / Training", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("Change Manager, Training Lead, Internal Comms", 1800),
+            cell("Plan organizational readiness across global sites (fabs, design centers, regional offices). Develop training materials for TSE agents, FAEs, and end users. Manage communication campaigns and track adoption metrics. Coordinate pilot group selection \u2014 recommended starting with one product line (e.g., DRAM or SSD) before expanding.", 5360),
+          ]}),
+          new TableRow({ children: [
+            cell([new TextRun({ text: "Quality & Reliability Engineering", bold: true, font: "Arial", size: 20 })], 2200),
+            cell("QA Director, Reliability Engineers, Test Engineers", 1800),
+            cell("Define test strategies for conversational AI accuracy against product specifications (ISO 9001, IATF 16949 automotive, AEC-Q100 qualification standards). Validate that AI responses citing reliability data, qualification reports, and failure analysis procedures meet engineering accuracy standards. Perform load testing for concurrent voice and chat sessions across global time zones.", 5360),
+          ]}),
+        ],
+      }),
+
+      new Paragraph({ spacing: { before: 300 } }),
+
+      heading2("2.1 RACI Summary"),
+      para("The following matrix outlines key decision rights across the project lifecycle:"),
+
+      new Table({
+        width: { size: 9360, type: WidthType.DXA },
+        columnWidths: [2800, 1640, 1640, 1640, 1640],
+        rows: [
+          new TableRow({ children: [
+            headerCell("Decision Area", 2800), headerCell("Responsible", 1640), headerCell("Accountable", 1640), headerCell("Consulted", 1640), headerCell("Informed", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Architecture & technology selection", 2800),
+            cell("IT / Cloud", 1640), cell("Executive Sponsor", 1640), cell("Security, AI/ML", 1640), cell("All", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Knowledge base content & classification", 2800),
+            cell("Knowledge Mgmt / Tech Pubs", 1640), cell("Tech Support Eng", 1640), cell("Apps Eng, Product", 1640), cell("Legal, QA", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Security, export controls & IP protection", 2800),
+            cell("InfoSec / Export Control", 1640), cell("CISO", 1640), cell("Legal, IT", 1640), cell("Executive Sponsor", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("AI model configuration & tuning", 2800),
+            cell("AI/ML", 1640), cell("IT / Cloud", 1640), cell("Tech Support, Apps Eng", 1640), cell("Product", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("User experience & branding", 2800),
+            cell("Product / UX", 1640), cell("Tech Support Eng", 1640), cell("Change Mgmt", 1640), cell("Legal", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Go-live & rollout (by product line)", 2800),
+            cell("Change Mgmt", 1640), cell("Executive Sponsor", 1640), cell("All functional areas", 1640), cell("End Users", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Analytics & reporting", 2800),
+            cell("Data & Analytics", 1640), cell("Tech Support Eng", 1640), cell("AI/ML, Supply Chain", 1640), cell("Executive Sponsor", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Voice & telephony channels", 2800),
+            cell("UC / Telephony", 1640), cell("IT / Cloud", 1640), cell("Tech Support Eng", 1640), cell("Product", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Order & supply chain integration", 2800),
+            cell("Supply Chain / Sales Ops", 1640), cell("IT / Cloud", 1640), cell("Tech Support, Apps Eng", 1640), cell("Legal", 1640),
+          ]}),
+          new TableRow({ children: [
+            cell("Technical accuracy validation", 2800),
+            cell("Quality & Reliability", 1640), cell("Apps Engineering", 1640), cell("Tech Support, AI/ML", 1640), cell("Knowledge Mgmt", 1640),
+          ]}),
+        ],
+      }),
+
+      new Paragraph({ children: [new PageBreak()] }),
+
+      // ═══════════════════════════════════════
       // 3. BUSINESS OBJECTIVES
       // ═══════════════════════════════════════
-      heading1("2. Business Objectives"),
+      heading1("3. Business Objectives"),
 
       bulletBold("24/7 AI-Powered Support: ", "Provide always-on support coverage without staffing constraints. The AI assistant handles routine queries, freeing human agents for complex issues."),
       bulletBold("Reduced Escalation Rate: ", "Target 40% reduction in human agent escalations through high-accuracy, confidence-scored responses with transparent source attribution."),
@@ -402,9 +552,9 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 4. SCOPE
       // ═══════════════════════════════════════
-      heading1("3. Scope"),
+      heading1("4. Scope"),
 
-      heading2("3.1 In Scope"),
+      heading2("4.1 In Scope"),
       bullet("AI-powered chat Q&A with RAG pipeline (Azure AI Search + Azure OpenAI)"),
       bullet("Real-time voice streaming via Azure Voice Live API"),
       bullet("Function calling / tool use for knowledge retrieval and workflow actions"),
@@ -416,7 +566,7 @@ const doc = new Document({
       bullet("Logging and observability via Azure Monitor"),
       bullet("Session management and conversation continuity"),
 
-      heading2("3.2 Out of Scope"),
+      heading2("4.2 Out of Scope"),
       bullet("Custom mobile application development (native iOS/Android)"),
       bullet("Integration with non-Microsoft CRM platforms"),
       bullet("Custom LLM training or fine-tuning (uses Azure OpenAI managed models)"),
@@ -429,7 +579,7 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 5. FUNCTIONAL REQUIREMENTS
       // ═══════════════════════════════════════
-      heading1("4. Functional Requirements"),
+      heading1("5. Functional Requirements"),
 
       para("Requirements are prioritized using MoSCoW classification: Must (critical for launch), Should (important but not blocking), Could (desirable if time/budget allows)."),
 
@@ -470,7 +620,7 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 6. NON-FUNCTIONAL REQUIREMENTS
       // ═══════════════════════════════════════
-      heading1("5. Non-Functional Requirements"),
+      heading1("6. Non-Functional Requirements"),
 
       ...nfrs.flatMap(nfr => [
         heading2(`5.${nfrs.indexOf(nfr) + 1} ${nfr.category}`),
@@ -482,23 +632,23 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 7. ARCHITECTURE OVERVIEW
       // ═══════════════════════════════════════
-      heading1("6. Architecture Overview"),
+      heading1("7. Architecture Overview"),
 
       para("The solution is designed with a layered architecture supporting two orchestration paths. All components are Microsoft-native with no third-party dependencies."),
 
-      heading2("6.1 Architecture Layers"),
+      heading2("7.1 Architecture Layers"),
       bulletBold("User Channels: ", "Microsoft Teams (chat + voice), Browser Widget, Azure Communication Services (telephony/PSTN)"),
       bulletBold("Orchestration Layer: ", "Two paths \u2014 Copilot Studio (with Bot Service + Power Automate) or AI Foundry (with Foundry Agent Service + Logic Apps)"),
       bulletBold("AI & Knowledge: ", "Azure OpenAI (GPT-4o, GPT-4o-mini, GPT-4o-realtime), Azure AI Search (semantic/vector), Azure Cosmos DB"),
       bulletBold("Enterprise Integration: ", "Microsoft Entra ID, Dynamics 365 Contact Center, Azure Monitor, Microsoft Fabric + Power BI"),
 
-      heading2("6.2 Copilot Studio Path"),
+      heading2("7.2 Copilot Studio Path"),
       para("Recommended for organizations seeking rapid deployment with low-code tooling. Copilot Studio provides a visual agent builder, Power Automate handles workflow automation, and Azure Bot Service manages channel routing."),
 
-      heading2("6.3 AI Foundry Path"),
+      heading2("7.3 AI Foundry Path"),
       para("Recommended for organizations requiring programmatic control and enterprise governance. Azure AI Foundry provides agent development and versioning, Foundry Agent Service offers autonomous agent runtime with semantic VAD, and Azure Logic Apps handles workflow automation."),
 
-      heading2("6.4 Component Mapping"),
+      heading2("7.4 Component Mapping"),
       new Table({
         width: { size: 9360, type: WidthType.DXA },
         columnWidths: [2340, 3510, 3510],
@@ -544,9 +694,9 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 8. SUCCESS CRITERIA
       // ═══════════════════════════════════════
-      heading1("7. Success Criteria"),
+      heading1("8. Success Criteria"),
 
-      heading2("7.1 POC Success Criteria"),
+      heading2("8.1 POC Success Criteria"),
       new Table({
         width: { size: 9360, type: WidthType.DXA },
         columnWidths: [600, 3260, 2500, 3000],
@@ -587,7 +737,7 @@ const doc = new Document({
         ],
       }),
 
-      heading2("7.2 Gap Closure Metrics"),
+      heading2("8.2 Gap Closure Metrics"),
       para("Track the percentage of identified gaps (13 gaps, 5 partial, 5 covered from the Voice Live API gap analysis) addressed by each phase gate. Target: 80% gap closure by Phase 3, 100% by Phase 4."),
 
       new Paragraph({ children: [new PageBreak()] }),
@@ -595,7 +745,7 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 9. PHASED DELIVERY ROADMAP
       // ═══════════════════════════════════════
-      heading1("8. Phased Delivery Roadmap"),
+      heading1("9. Phased Delivery Roadmap"),
 
       new Table({
         width: { size: 9360, type: WidthType.DXA },
@@ -626,11 +776,11 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 10. RESOURCE PLAN
       // ═══════════════════════════════════════
-      heading1("9. Resource Plan"),
+      heading1("10. Resource Plan"),
 
       para(`All estimates based on 2-week sprints with a blended rate of $${RATE}/hour.`),
 
-      heading2("9.1 Sprint Allocation by Role"),
+      heading2("10.1 Sprint Allocation by Role"),
       new Table({
         width: { size: 9360, type: WidthType.DXA },
         columnWidths: [1560, 1300, 1300, 1300, 1300, 1300, 1200],
@@ -662,7 +812,7 @@ const doc = new Document({
 
       new Paragraph({ spacing: { before: 200 } }),
 
-      heading2("9.2 Cost Breakdown by Sprint"),
+      heading2("10.2 Cost Breakdown by Sprint"),
       new Table({
         width: { size: 9360, type: WidthType.DXA },
         columnWidths: [2340, 1560, 1560, 2340, 1560],
@@ -698,7 +848,7 @@ const doc = new Document({
 
       new Paragraph({ spacing: { before: 200 } }),
 
-      heading2("9.3 Phase Summary"),
+      heading2("10.3 Phase Summary"),
       new Table({
         width: { size: 9360, type: WidthType.DXA },
         columnWidths: [3120, 1560, 1560, 3120],
@@ -728,9 +878,9 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 11. ASSUMPTIONS & DEPENDENCIES
       // ═══════════════════════════════════════
-      heading1("10. Assumptions & Dependencies"),
+      heading1("11. Assumptions & Dependencies"),
 
-      heading2("10.1 Assumptions"),
+      heading2("11.1 Assumptions"),
       bullet("Acme Corp has an active Azure subscription with sufficient quota for Azure OpenAI, AI Search, and Cosmos DB services"),
       bullet("Microsoft Entra ID tenant is provisioned and available for authentication integration"),
       bullet("Azure Voice Live API preview access is approved (currently in feature preview)"),
@@ -738,7 +888,7 @@ const doc = new Document({
       bullet("Stakeholder availability for sprint reviews and phase gate approvals"),
       bullet("Development team has access to Azure Portal and required service permissions"),
 
-      heading2("10.2 Dependencies"),
+      heading2("11.2 Dependencies"),
       bullet("Azure OpenAI service availability and model deployment (GPT-4o, GPT-4o-realtime)"),
       bullet("Copilot Studio licensing (per-user or per-tenant, depending on selected path)"),
       bullet("Dynamics 365 Contact Center license for human agent escalation"),
@@ -751,7 +901,7 @@ const doc = new Document({
       // ═══════════════════════════════════════
       // 12. APPENDIX: GAP ANALYSIS REFERENCE
       // ═══════════════════════════════════════
-      heading1("11. Appendix: Gap Analysis Reference"),
+      heading1("12. Appendix: Gap Analysis Reference"),
 
       para("The following table summarizes the gap analysis between the Azure Voice Live API article and the current AI Support Assistant demo. This analysis informed the functional requirements in this document."),
 
@@ -807,7 +957,18 @@ const doc = new Document({
 // ─── Generate ───
 Packer.toBuffer(doc).then(buffer => {
   const outPath = "docs/AI-Support-Assistant-BRD.docx";
-  fs.writeFileSync(outPath, buffer);
+  try {
+    fs.writeFileSync(outPath, buffer);
+  } catch (e) {
+    if (e.code === "EBUSY") {
+      const alt = outPath.replace(".docx", "-new.docx");
+      fs.writeFileSync(alt, buffer);
+      console.log(`Original locked. Written to: ${alt}`);
+      console.log("Close the file in Word and rename manually, or re-run.");
+      return;
+    }
+    throw e;
+  }
   const kb = (buffer.length / 1024).toFixed(0);
   console.log(`Generated: ${outPath} (${kb} KB)`);
 });

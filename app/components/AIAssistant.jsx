@@ -237,7 +237,8 @@ const SUGGESTED_QUESTIONS = [
 // ─── Improved fuzzy matching with TF-IDF-inspired scoring ───
 function findAnswer(input) {
   const lower = input.toLowerCase().trim().replace(/[?!.,;:]/g, "");
-  const words = lower.split(/\s+/).filter(w => w.length > 1);
+  const STOP_WORDS = new Set(["what","is","the","a","an","to","in","of","and","or","how","do","does","can","my","me","it","this","that","for","on","with","are","was","were","be","been","have","has","had","will","would","could","should","about","from","they","them","their","there","here","where","when","who","which","than","then","but","not","no","so","if","at","by","up","out","as","its","i","you","we","us","our","your"]);
+  const words = lower.split(/\s+/).filter(w => w.length > 1 && !STOP_WORDS.has(w));
   let bestMatch = null;
   let bestScore = 0;
 
@@ -252,8 +253,8 @@ function findAnswer(input) {
       if (keyword.includes(lower) && lower.length > 3) {
         score = Math.max(score, lower.length * 2 + 5);
       }
-      // Word overlap scoring
-      const kwWords = keyword.split(/\s+/);
+      // Word overlap scoring (stop words excluded)
+      const kwWords = keyword.split(/\s+/).filter(w => !STOP_WORDS.has(w));
       let overlap = 0;
       for (const w of words) {
         if (kwWords.some(kw => kw.includes(w) || w.includes(kw))) overlap++;
@@ -269,7 +270,7 @@ function findAnswer(input) {
     }
   }
 
-  if (bestMatch && bestScore > 4) {
+  if (bestMatch && bestScore > 8) {
     return {
       text: bestMatch.a,
       category: bestMatch.category,
